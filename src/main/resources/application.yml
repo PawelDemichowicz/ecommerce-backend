@@ -1,0 +1,28 @@
+spring:
+  security:
+    enabled: false #to remove
+  application:
+    name: ecommerce-backend
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ecommerce
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format-sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  hikari:
+    minimum-idle: 5
+    maximum-pool-size: 20
+    idle-timeout: 30000
+    max-lifetime: 1800000
+    connection-timeout: 3000
+    leak-detection-threshold: 2000
+  flyway:
+    enabled: true
+    baseline-on-migrate: true

@@ -12,10 +12,6 @@ target/
 *.war
 *.ear
 
-# Spring Boot and configurations
-application.properties
-application.yml
-
 ### STS ###
 .apt_generated
 .classpath
