@@ -33,5 +33,5 @@ public class OrderEntity {
     private OrderStatus status;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItemsEntity> orderItems;
+    private List<OrderItemEntity> orderItems;
 }
