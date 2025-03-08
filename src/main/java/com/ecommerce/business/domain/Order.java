@@ -9,6 +9,7 @@ import java.util.List;
 @Value
 @Builder
 public class Order {
+
     User user;
     OffsetDateTime orderDate;
     List<OrderItem> orderItems;

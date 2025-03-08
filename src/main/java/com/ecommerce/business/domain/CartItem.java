@@ -6,6 +6,7 @@ import lombok.Value;
 @Value
 @Builder
 public class CartItem {
+
     User user;
     Product product;
     Integer quantity;

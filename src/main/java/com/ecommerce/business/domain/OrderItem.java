@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 @Value
 @Builder
 public class OrderItem {
+
     Order order;
     Product product;
     Integer quantity;
