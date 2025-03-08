@@ -24,11 +24,11 @@ public class ProductService {
                 .toList();
     }
 
-    public Product getProductById(Integer id) {
-        Optional<Product> productById = productRepository.findById(id);
-        if (productById.isEmpty()) {
+    public Product getProductById(Long id) {
+        Optional<Product> product = productRepository.findById(id);
+        if (product.isEmpty()) {
             throw new NotFoundException("Could not find product by id: [%s]".formatted(id));
         }
-        return productById.get();
+        return product.get();
     }
 }

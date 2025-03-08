@@ -18,18 +18,18 @@ public class ProductRepository {
 
     public List<Product> findAll() {
         return productJpaRepository.findAll().stream()
-                .map(productEntityMapper::map)
+                .map(productEntityMapper::mapFromEntity)
                 .toList();
     }
 
     public List<Product> findByName(String name) {
         return productJpaRepository.findByName().stream()
-                .map(productEntityMapper::map)
+                .map(productEntityMapper::mapFromEntity)
                 .toList();
     }
 
-    public Optional<Product> findById(Integer id) {
-        return productJpaRepository.findById()
-                .map(productEntityMapper::map);
+    public Optional<Product> findById(Long id) {
+        return productJpaRepository.findById(id)
+                .map(productEntityMapper::mapFromEntity);
     }
 }

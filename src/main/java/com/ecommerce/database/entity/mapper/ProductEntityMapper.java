@@ -8,5 +8,5 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ProductEntityMapper {
 
-    Product map(ProductEntity productEntity);
+    Product mapFromEntity(ProductEntity productEntity);
 }
