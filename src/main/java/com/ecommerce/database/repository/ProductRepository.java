@@ -23,13 +23,13 @@ public class ProductRepository {
     }
 
     public List<Product> findByName(String name) {
-        return productJpaRepository.findByName().stream()
+        return productJpaRepository.findByName(name).stream()
                 .map(productEntityMapper::mapFromEntity)
                 .toList();
     }
 
-    public Optional<Product> findById(Long id) {
-        return productJpaRepository.findById(id)
+    public Optional<Product> findById(Long productId) {
+        return productJpaRepository.findById(productId)
                 .map(productEntityMapper::mapFromEntity);
     }
 }

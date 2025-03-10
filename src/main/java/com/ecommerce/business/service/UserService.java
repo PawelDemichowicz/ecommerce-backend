@@ -14,10 +14,10 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public User getUserById(Long id) {
-        Optional<User> user = userRepository.findById(id);
+    public User getUserById(Long userId) {
+        Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty()) {
-            throw new NotFoundException("Could not find user by id: [%s]".formatted(id));
+            throw new NotFoundException("Could not find user by id: [%s]".formatted(userId));
         }
         return user.get();
     }

@@ -15,8 +15,12 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public Product getProductById(Long productId) {
+        Optional<Product> product = productRepository.findById(productId);
+        if (product.isEmpty()) {
+            throw new NotFoundException("Could not find product by id: [%s]".formatted(productId));
+        }
+        return product.get();
     }
 
     public List<Product> getProductsByName(String name) {
@@ -24,11 +28,7 @@ public class ProductService {
                 .toList();
     }
 
-    public Product getProductById(Long id) {
-        Optional<Product> product = productRepository.findById(id);
-        if (product.isEmpty()) {
-            throw new NotFoundException("Could not find product by id: [%s]".formatted(id));
-        }
-        return product.get();
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
     }
 }
