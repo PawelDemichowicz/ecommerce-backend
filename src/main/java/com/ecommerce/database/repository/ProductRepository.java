@@ -16,10 +16,9 @@ public class ProductRepository {
     private final ProductJpaRepository productJpaRepository;
     private final ProductEntityMapper productEntityMapper;
 
-    public List<Product> findAll() {
-        return productJpaRepository.findAll().stream()
-                .map(productEntityMapper::mapFromEntity)
-                .toList();
+    public Optional<Product> findById(Long productId) {
+        return productJpaRepository.findById(productId)
+                .map(productEntityMapper::mapFromEntity);
     }
 
     public List<Product> findByName(String name) {
@@ -28,8 +27,9 @@ public class ProductRepository {
                 .toList();
     }
 
-    public Optional<Product> findById(Long productId) {
-        return productJpaRepository.findById(productId)
-                .map(productEntityMapper::mapFromEntity);
+    public List<Product> findAll() {
+        return productJpaRepository.findAll().stream()
+                .map(productEntityMapper::mapFromEntity)
+                .toList();
     }
 }

@@ -1,13 +1,15 @@
 package com.ecommerce.business.domain;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
+import lombok.With;
 
-@Data
+@With
+@Value
 @Builder
 public class CartItem {
 
-    private User user;
-    private Product product;
-    private Integer quantity;
+    User user;
+    Product product;
+    Integer quantity;
 }

@@ -42,8 +42,8 @@ public class CartService {
 
         if (existingCartItem.isPresent()) {
             CartItem cartItem = existingCartItem.get();
-            cartItem.setQuantity(cartItem.getQuantity() + quantity);
-            cartItemRepository.saveCartItem(cartItem);
+            CartItem newCartItem = cartItem.withQuantity(cartItem.getQuantity() + quantity);
+            cartItemRepository.saveCartItem(newCartItem);
         } else {
             CartItem cartItem = CartItem.builder()
                     .user(user)
