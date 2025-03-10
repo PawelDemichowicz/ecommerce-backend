@@ -10,11 +10,12 @@ spring:
     driver-class-name: org.postgresql.Driver
     type: com.zaxxer.hikari.HikariDataSource
   jpa:
+    show-sql: true
     hibernate:
       ddl-auto: validate
     properties:
       hibernate:
-        format-sql: true
+        format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
   hikari:
     minimum-idle: 5
