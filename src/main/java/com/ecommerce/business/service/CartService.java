@@ -25,18 +25,18 @@ public class CartService {
     private final UserService userService;
 
     @Transactional
-    public CartItem getCartItem(Long cartItemId) {
+    public CartItem getCartItem(Integer cartItemId) {
         return cartItemRepository.findById(cartItemId)
                 .orElseThrow(() -> new NotFoundException("Could not find cart by id: [%s]".formatted(cartItemId)));
     }
 
     @Transactional
-    public List<CartItem> getCartItemsByUser(Long userId) {
+    public List<CartItem> getCartItemsByUser(Integer userId) {
         return cartItemRepository.findByUserId(userId);
     }
 
     @Transactional
-    public void addToCart(Long userId, Long productId, Integer quantity) {
+    public void addToCart(Integer userId, Integer productId, Integer quantity) {
         User user = userService.getUserById(userId);
         Product product = productService.getProductById(productId);
         Optional<CartItem> existingCartItem = cartItemRepository.findByUserAndProduct(userId, productId);
@@ -56,12 +56,12 @@ public class CartService {
     }
 
     @Transactional
-    public void removeFromCart(Long cartItemId) {
+    public void removeFromCart(Integer cartItemId) {
         cartItemRepository.deleteById(cartItemId);
     }
 
     @Transactional
-    public void clearCart(Long userId) {
+    public void clearCart(Integer userId) {
         List<CartItem> cartItems = getCartItemsByUser(userId);
 
         if (cartItems.isEmpty()) {

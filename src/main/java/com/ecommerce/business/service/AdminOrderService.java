@@ -22,7 +22,7 @@ public class AdminOrderService {
     }
 
     @Transactional
-    public Order updateOrderStatus(Long orderId, OrderStatus status) {
+    public Order updateOrderStatus(Integer orderId, OrderStatus status) {
         Order order = orderService.getOrder(orderId);
         Order updatedOrder = order.withStatus(status);
 

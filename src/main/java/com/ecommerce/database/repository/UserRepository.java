@@ -15,7 +15,7 @@ public class UserRepository {
     private final UserJpaRepository userJpaRepository;
     private final UserEntityMapper userEntityMapper;
 
-    public Optional<User> findById(Long userId) {
+    public Optional<User> findById(Integer userId) {
         return userJpaRepository.findById(userId)
                 .map(userEntityMapper::mapFromEntity);
     }

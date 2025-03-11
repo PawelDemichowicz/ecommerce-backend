@@ -17,7 +17,7 @@ public class ProductRepository {
     private final ProductJpaRepository productJpaRepository;
     private final ProductEntityMapper productEntityMapper;
 
-    public Optional<Product> findById(Long productId) {
+    public Optional<Product> findById(Integer productId) {
         return productJpaRepository.findById(productId)
                 .map(productEntityMapper::mapFromEntity);
     }
@@ -39,13 +39,13 @@ public class ProductRepository {
         productJpaRepository.save(productToSave);
     }
 
-    public void updateProduct(Long productId, Product product) {
+    public void updateProduct(Integer productId, Product product) {
         ProductEntity productToSave = productEntityMapper.mapToEntity(product);
         productToSave.setId(productId);
         productJpaRepository.save(productToSave);
     }
 
-    public void deleteById(Long productId) {
+    public void deleteById(Integer productId) {
         productJpaRepository.deleteById(productId);
     }
 }

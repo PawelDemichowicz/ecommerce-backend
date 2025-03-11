@@ -17,18 +17,18 @@ public class CartItemRepository {
     private final CartItemJpaRepository cartItemJpaRepository;
     private final CartItemEntityMapper cartItemEntityMapper;
 
-    public Optional<CartItem> findById(Long cartItemId) {
+    public Optional<CartItem> findById(Integer cartItemId) {
         return cartItemJpaRepository.findById(cartItemId)
                 .map(cartItemEntityMapper::mapFromEntity);
     }
 
-    public List<CartItem> findByUserId(Long userId) {
+    public List<CartItem> findByUserId(Integer userId) {
         return cartItemJpaRepository.findByUserId(userId).stream()
                 .map(cartItemEntityMapper::mapFromEntity)
                 .toList();
     }
 
-    public Optional<CartItem> findByUserAndProduct(Long userId, Long productId) {
+    public Optional<CartItem> findByUserAndProduct(Integer userId, Integer productId) {
         return cartItemJpaRepository.findByUserIdAndProductId(userId, productId)
                 .map(cartItemEntityMapper::mapFromEntity);
     }
@@ -38,11 +38,11 @@ public class CartItemRepository {
         cartItemJpaRepository.save(cartItemToSave);
     }
 
-    public void deleteById(Long cartItemId) {
+    public void deleteById(Integer cartItemId) {
         cartItemJpaRepository.deleteById(cartItemId);
     }
 
-    public void deleteByUserId(Long userId) {
+    public void deleteByUserId(Integer userId) {
         cartItemJpaRepository.deleteByUserId(userId);
     }
 }

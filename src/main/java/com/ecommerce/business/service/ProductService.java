@@ -16,7 +16,7 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     @Transactional
-    public Product getProductById(Long productId) {
+    public Product getProductById(Integer productId) {
         return productRepository.findById(productId)
                 .orElseThrow(() -> new NotFoundException("Could not find product by id: [%s]".formatted(productId)));
     }
@@ -39,7 +39,7 @@ public class ProductService {
     }
 
     @Transactional
-    public Product updateProduct(Long productId, Product product) {
+    public Product updateProduct(Integer productId, Product product) {
         Product existingProduct = getProductById(productId);
         Product newProduct = buildProduct(existingProduct, product);
         productRepository.updateProduct(productId, newProduct);
@@ -47,7 +47,7 @@ public class ProductService {
     }
 
     @Transactional
-    public void deleteProduct(Long productId) {
+    public void deleteProduct(Integer productId) {
         productRepository.deleteById(productId);
     }
 

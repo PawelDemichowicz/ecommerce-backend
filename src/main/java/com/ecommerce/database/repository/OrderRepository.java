@@ -17,12 +17,12 @@ public class OrderRepository {
     private final OrderJpaRepository orderJpaRepository;
     private final OrderEntityMapper orderEntityMapper;
 
-    public Optional<Order> findById(Long orderId) {
+    public Optional<Order> findById(Integer orderId) {
         return orderJpaRepository.findById(orderId)
                 .map(orderEntityMapper::mapFromEntity);
     }
 
-    public List<Order> findByUser(Long userId) {
+    public List<Order> findByUser(Integer userId) {
         return orderJpaRepository.findByUserId(userId).stream()
                 .map(orderEntityMapper::mapFromEntity)
                 .toList();

@@ -14,7 +14,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public User getUserById(Long userId) {
+    public User getUserById(Integer userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Could not find user by id: [%s]".formatted(userId)));
     }

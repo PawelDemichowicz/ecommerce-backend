@@ -26,18 +26,18 @@ public class OrderService {
     private final CartService cartService;
 
     @Transactional
-    public Order getOrder(Long orderId) {
+    public Order getOrder(Integer orderId) {
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> new NotFoundException("Could not find order by id: [%s]".formatted(orderId)));
     }
 
     @Transactional
-    public List<Order> getOrdersByUser(Long userId) {
+    public List<Order> getOrdersByUser(Integer userId) {
         return orderRepository.findByUser(userId);
     }
 
     @Transactional
-    public Order placeOrder(Long userId) {
+    public Order placeOrder(Integer userId) {
         User user = userService.getUserById(userId);
         List<CartItem> cartItems = cartService.getCartItemsByUser(userId);
 
@@ -55,7 +55,7 @@ public class OrderService {
     }
 
     @Transactional
-    public Order cancelOrder(Long orderId) {
+    public Order cancelOrder(Integer orderId) {
         Order order = getOrder(orderId);
 
         if (!order.getStatus().equals(OrderStatus.PENDING)) {
