@@ -9,4 +9,6 @@ import org.mapstruct.ReportingPolicy;
 public interface ProductEntityMapper {
 
     Product mapFromEntity(ProductEntity productEntity);
+
+    ProductEntity mapToEntity(Product product);
 }

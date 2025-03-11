@@ -1,6 +1,7 @@
 package com.ecommerce.database.repository;
 
 import com.ecommerce.business.domain.Product;
+import com.ecommerce.database.entity.ProductEntity;
 import com.ecommerce.database.entity.mapper.ProductEntityMapper;
 import com.ecommerce.database.repository.jpa.ProductJpaRepository;
 import lombok.AllArgsConstructor;
@@ -31,5 +32,20 @@ public class ProductRepository {
         return productJpaRepository.findAll().stream()
                 .map(productEntityMapper::mapFromEntity)
                 .toList();
+    }
+
+    public void saveProduct(Product product) {
+        ProductEntity productToSave = productEntityMapper.mapToEntity(product);
+        productJpaRepository.save(productToSave);
+    }
+
+    public void updateProduct(Long productId, Product product) {
+        ProductEntity productToSave = productEntityMapper.mapToEntity(product);
+        productToSave.setId(productId);
+        productJpaRepository.save(productToSave);
+    }
+
+    public void deleteById(Long productId) {
+        productJpaRepository.deleteById(productId);
     }
 }
