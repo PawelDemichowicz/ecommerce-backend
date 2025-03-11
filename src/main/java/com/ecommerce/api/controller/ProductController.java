@@ -18,13 +18,13 @@ import java.util.Objects;
 @RequestMapping(ProductController.API_PRODUCTS)
 public class ProductController {
 
-    public static final String API_PRODUCTS = "/cars";
-    public static final String API_PRODUCT_ID = "/{id}";
+    public static final String API_PRODUCTS = "/products";
+    public static final String API_PRODUCT_ID = "/{productId}";
 
     private final ProductService productService;
     private final ProductMapper productMapper;
 
-    @GetMapping(API_PRODUCT_ID)
+    @GetMapping(value = API_PRODUCT_ID)
     public ResponseEntity<ProductDTO> getProduct(
             @PathVariable Integer productId
     ) {
