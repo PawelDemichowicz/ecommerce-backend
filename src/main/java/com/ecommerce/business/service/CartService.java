@@ -24,6 +24,7 @@ public class CartService {
     private final ProductService productService;
     private final UserService userService;
 
+    @Transactional
     public CartItem getCartItem(Long cartItemId) {
         return cartItemRepository.findById(cartItemId)
                 .orElseThrow(() -> new NotFoundException("Could not find cart by id: [%s]".formatted(cartItemId)));

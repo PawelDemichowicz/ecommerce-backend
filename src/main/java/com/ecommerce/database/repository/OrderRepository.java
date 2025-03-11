@@ -1,6 +1,7 @@
 package com.ecommerce.database.repository;
 
 import com.ecommerce.business.domain.Order;
+import com.ecommerce.database.entity.OrderEntity;
 import com.ecommerce.database.entity.mapper.OrderEntityMapper;
 import com.ecommerce.database.repository.jpa.OrderJpaRepository;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,7 @@ public class OrderRepository {
     }
 
     public void saveOrder(Order order) {
-        orderJpaRepository.save(orderEntityMapper.mapToEntity(order));
+        OrderEntity orderToSave = orderEntityMapper.mapToEntity(order);
+        orderJpaRepository.save(orderToSave);
     }
 }
