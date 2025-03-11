@@ -27,6 +27,12 @@ public class OrderRepository {
                 .toList();
     }
 
+    public List<Order> findAll() {
+        return orderJpaRepository.findAll().stream()
+                .map(orderEntityMapper::mapFromEntity)
+                .toList();
+    }
+
     public void saveOrder(Order order) {
         orderJpaRepository.save(orderEntityMapper.mapToEntity(order));
     }
