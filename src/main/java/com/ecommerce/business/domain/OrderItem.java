@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 @Builder
 public class OrderItem {
 
+    Integer id;
     Order order;
     Product product;
     Integer quantity;

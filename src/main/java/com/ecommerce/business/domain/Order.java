@@ -13,6 +13,7 @@ import java.util.List;
 @Builder
 public class Order {
 
+    Integer id;
     User user;
     OffsetDateTime orderDate;
     OrderStatus status;

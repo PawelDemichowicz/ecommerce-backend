@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderDTO {
 
-    User user;
+    UserDTO user;
     OffsetDateTime orderDate;
     OrderStatus status;
     List<OrderItem> orderItems;

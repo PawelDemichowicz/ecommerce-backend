@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 @Builder
 public class Product {
 
+    Integer id;
     String name;
     String description;
     BigDecimal price;

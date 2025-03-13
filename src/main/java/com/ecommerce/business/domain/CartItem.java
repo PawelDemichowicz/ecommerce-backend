@@ -9,6 +9,7 @@ import lombok.With;
 @Builder
 public class CartItem {
 
+    Integer id;
     User user;
     Product product;
     Integer quantity;
