@@ -7,7 +7,6 @@ import com.ecommerce.business.domain.User;
 import com.ecommerce.business.exception.NotFoundException;
 import com.ecommerce.business.exception.ProcessingException;
 import com.ecommerce.database.entity.enums.OrderStatus;
-import com.ecommerce.database.repository.CartItemRepository;
 import com.ecommerce.database.repository.OrderRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
