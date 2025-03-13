@@ -33,6 +33,6 @@ public class OrderEntity {
     @Column(name = "status")
     private OrderStatus status;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "order")
     private List<OrderItemEntity> orderItems;
 }

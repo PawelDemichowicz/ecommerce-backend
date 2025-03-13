@@ -7,12 +7,13 @@ import com.ecommerce.business.domain.User;
 import com.ecommerce.business.exception.NotFoundException;
 import com.ecommerce.business.exception.ProcessingException;
 import com.ecommerce.database.entity.enums.OrderStatus;
+import com.ecommerce.database.repository.CartItemRepository;
 import com.ecommerce.database.repository.OrderRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -45,12 +46,11 @@ public class OrderService {
             throw new ProcessingException("Cannot place order with an empty cart");
         }
 
-        Order order = buildOrder(user);
-        List<OrderItem> orderItems = buildOrderItems(cartItems, order);
+        List<OrderItem> orderItems = buildOrderItems(cartItems);
+        Order order = buildOrder(user, orderItems);
 
-        Order newOrder = order.withOrderItems(orderItems);
-        orderRepository.saveOrder(newOrder);
-
+        Order newOrder = orderRepository.issueOrder(order);
+        cartService.clearCart(userId);
         return newOrder;
     }
 
@@ -68,22 +68,22 @@ public class OrderService {
         return updatedOrder;
     }
 
-    private List<OrderItem> buildOrderItems(List<CartItem> cartItems, Order order) {
+    private List<OrderItem> buildOrderItems(List<CartItem> cartItems) {
         return cartItems.stream()
                 .map(cartItem -> OrderItem.builder()
-                        .order(order)
                         .product(cartItem.getProduct())
                         .quantity(cartItem.getQuantity())
-                        .price(cartItem.getProduct().getPrice())
+                        .price(cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())))
                         .build())
                 .toList();
     }
 
-    private Order buildOrder(User user) {
+    private Order buildOrder(User user, List<OrderItem> orderItems) {
         return Order.builder()
                 .user(user)
-                .orderDate(OffsetDateTime.from(LocalDateTime.now()))
+                .orderDate(OffsetDateTime.now())
                 .status(OrderStatus.PENDING)
+                .orderItems(orderItems)
                 .build();
     }
 }

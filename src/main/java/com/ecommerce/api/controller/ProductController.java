@@ -5,10 +5,7 @@ import com.ecommerce.api.dto.ProductsDTO;
 import com.ecommerce.api.dto.mapper.ProductMapper;
 import com.ecommerce.business.service.ProductService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Objects;
 
 @RestController
 @AllArgsConstructor
@@ -23,14 +20,10 @@ public class ProductController {
     private final ProductMapper productMapper;
 
     @GetMapping(value = API_PRODUCT_ID)
-    public ResponseEntity<ProductDTO> getProduct(
+    public ProductDTO getProduct(
             @PathVariable Integer productId
     ) {
-        if (Objects.isNull(productId)) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity
-                .ok(productMapper.mapToDTO(productService.getProductById(productId)));
+        return productMapper.mapToDTO(productService.getProductById(productId));
     }
 
     @GetMapping(value = API_PRODUCT_SEARCH)

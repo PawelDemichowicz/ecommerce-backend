@@ -1,5 +1,6 @@
 package com.ecommerce.api.dto;
 
+import com.ecommerce.business.domain.OrderItem;
 import com.ecommerce.database.entity.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,11 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderDTO {
+public class OrdersDTO {
 
-    Integer id;
-    UserDTO user;
-    OffsetDateTime orderDate;
-    OrderStatus status;
-    List<OrderItemDTO> orderItems;
+    List<OrderDTO> orders;
 }

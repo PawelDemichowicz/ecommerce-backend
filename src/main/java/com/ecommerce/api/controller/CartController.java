@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping(CartController.API_CART)
@@ -17,32 +19,37 @@ public class CartController {
 
     public static final String API_CART = "/cart";
     public static final String API_CART_ID = "/{cartItemId}";
-    public static final String API_CART_USER_ID = "/{userId}";
-    public static final String API_CART_CLEAR = "/clear/{userId}";
+    public static final String API_CART_USER_ID = "/user/{userId}";
+    public static final String API_CART_CLEAR = "/{userId}/clear";
 
     private final CartService cartService;
     private final CartItemMapper cartItemMapper;
 
 
     @GetMapping(value = API_CART_USER_ID)
-    public CartItemsDTO getAllCartItems(
+    public ResponseEntity<CartItemsDTO> getAllCartItems(
             @PathVariable Integer userId
     ) {
-        return CartItemsDTO.builder()
+        if (Objects.isNull(userId)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        CartItemsDTO cartItems = CartItemsDTO.builder()
                 .cartItems(cartService.getCartItemsByUser(userId).stream()
                         .map(cartItemMapper::mapToDTO)
                         .toList())
                 .build();
+        return ResponseEntity.ok(cartItems);
     }
 
     @PostMapping(value = API_CART_USER_ID)
-    public ResponseEntity<CartItemDTO> addToCart(
+    public CartItemDTO addToCart(
             @PathVariable Integer userId,
             @RequestBody @Valid CartItemDTO cartItemDTO
     ) {
         CartItem cartItem = cartItemMapper.mapFromDTO(cartItemDTO);
         cartService.addToCart(userId, cartItemDTO.getProduct().getId(), cartItemDTO.getQuantity());
-        return ResponseEntity.ok(cartItemMapper.mapToDTO(cartItem));
+        return cartItemMapper.mapToDTO(cartItem);
     }
 
     @DeleteMapping(value = API_CART_ID)
