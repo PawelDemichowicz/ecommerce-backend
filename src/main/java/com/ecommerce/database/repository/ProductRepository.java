@@ -23,7 +23,7 @@ public class ProductRepository {
     }
 
     public List<Product> findByName(String name) {
-        return productJpaRepository.findByName(name).stream()
+        return productJpaRepository.findByNameContainingIgnoreCase(name).stream()
                 .map(productEntityMapper::mapFromEntity)
                 .toList();
     }

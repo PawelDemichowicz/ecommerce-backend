@@ -6,10 +6,7 @@ import com.ecommerce.api.dto.mapper.ProductMapper;
 import com.ecommerce.business.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
@@ -20,6 +17,7 @@ public class ProductController {
 
     public static final String API_PRODUCTS = "/products";
     public static final String API_PRODUCT_ID = "/{productId}";
+    public static final String API_PRODUCT_SEARCH = "/search";
 
     private final ProductService productService;
     private final ProductMapper productMapper;
@@ -33,6 +31,17 @@ public class ProductController {
         }
         return ResponseEntity
                 .ok(productMapper.mapToDTO(productService.getProductById(productId)));
+    }
+
+    @GetMapping(value = API_PRODUCT_SEARCH)
+    public ProductsDTO getProductsByName(
+            @RequestParam(value = "productName") String name
+    ) {
+        return ProductsDTO.builder()
+                .products(productService.getProductsByName(name).stream()
+                        .map(productMapper::mapToDTO)
+                        .toList())
+                .build();
     }
 
     @GetMapping
