@@ -25,9 +25,10 @@ public class JwtUtil {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public String generateToken(String username) {
+    public String generateToken(CustomUserDetails userDetails) {
         return Jwts.builder()
-                .subject(username)
+                .subject(userDetails.getEmail())
+                .claim("userId", userDetails.getUserId())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getSignKey(), Jwts.SIG.HS256)
