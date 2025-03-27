@@ -5,12 +5,12 @@ import com.ecommerce.api.dto.CartItemsDTO;
 import com.ecommerce.api.dto.mapper.CartItemMapper;
 import com.ecommerce.business.domain.CartItem;
 import com.ecommerce.business.service.CartService;
+import com.ecommerce.security.util.CustomUserDetails;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Objects;
 
 @RestController
 @AllArgsConstructor
@@ -19,21 +19,17 @@ public class CartController {
 
     public static final String API_CART = "/cart";
     public static final String API_CART_ID = "/{cartItemId}";
-    public static final String API_CART_USER_ID = "/user/{userId}";
-    public static final String API_CART_CLEAR = "/{userId}/clear";
+    public static final String API_CART_CLEAR = "/clear";
 
     private final CartService cartService;
     private final CartItemMapper cartItemMapper;
 
 
-    @GetMapping(value = API_CART_USER_ID)
+    @GetMapping
     public ResponseEntity<CartItemsDTO> getAllCartItems(
-            @PathVariable Integer userId
+            @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
-        if (Objects.isNull(userId)) {
-            return ResponseEntity.notFound().build();
-        }
-
+        Integer userId = userDetails.getUserId();
         CartItemsDTO cartItems = CartItemsDTO.builder()
                 .cartItems(cartService.getCartItemsByUser(userId).stream()
                         .map(cartItemMapper::mapToDTO)
@@ -42,13 +38,14 @@ public class CartController {
         return ResponseEntity.ok(cartItems);
     }
 
-    @PostMapping(value = API_CART_USER_ID)
+    @PostMapping
     public CartItemDTO addToCart(
-            @PathVariable Integer userId,
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestBody @Valid CartItemDTO cartItemDTO
     ) {
+        Integer userId = userDetails.getUserId();
         CartItem cartItem = cartItemMapper.mapFromDTO(cartItemDTO);
-        cartService.addToCart(userId, cartItemDTO.getProduct().getId(), cartItemDTO.getQuantity());
+        cartService.addToCart(userId, cartItemDTO.getProductId(), cartItemDTO.getQuantity());
         return cartItemMapper.mapToDTO(cartItem);
     }
 
@@ -61,8 +58,9 @@ public class CartController {
 
     @DeleteMapping(value = API_CART_CLEAR)
     public void removeAllItemsFromCart(
-            @PathVariable Integer userId
+            @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
+        Integer userId = userDetails.getUserId();
         cartService.clearCart(userId);
     }
 }
