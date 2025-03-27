@@ -7,6 +7,7 @@ import com.ecommerce.database.repository.UserRepository;
 import com.ecommerce.security.auth.dto.AuthenticateRequest;
 import com.ecommerce.security.auth.dto.AuthenticationResponse;
 import com.ecommerce.security.auth.dto.RegisterRequest;
+import com.ecommerce.security.util.CustomUserDetails;
 import com.ecommerce.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,7 +27,7 @@ public class AuthenticationService {
     public AuthenticationResponse register(RegisterRequest request) {
         var user = buildUser(request);
         userRepository.save(user);
-        return buildToken(user.getEmail());
+        return buildToken(user);
     }
 
     public AuthenticationResponse authenticate(AuthenticateRequest request) {
@@ -39,7 +40,7 @@ public class AuthenticationService {
         var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() ->
                         new NotFoundException("Could not find user by email: [%s]".formatted(request.getEmail())));
-        return buildToken(user.getEmail());
+        return buildToken(user);
     }
 
     private User buildUser(RegisterRequest request) {
@@ -51,9 +52,10 @@ public class AuthenticationService {
                 .build();
     }
 
-    private AuthenticationResponse buildToken(String username) {
+    private AuthenticationResponse buildToken(User user) {
+        CustomUserDetails userDetails = new CustomUserDetails(user);
         return AuthenticationResponse.builder()
-                .token(jwtUtil.generateToken(username))
+                .token(jwtUtil.generateToken(userDetails))
                 .build();
     }
 }
