@@ -15,7 +15,7 @@ public class AdminController {
 
     public static final String API_ADMIN = "/admin";
     public static final String API_ADMIN_PRODUCTS = "/products";
-    public static final String API_ADMIN_PRODUCTS_ID = "/products/{id}";
+    public static final String API_ADMIN_PRODUCTS_ID = "/products/{productId}";
     public static final String API_ADMIN_ORDERS = "/orders";
 
     private final ProductService productService;
