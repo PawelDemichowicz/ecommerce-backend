@@ -20,12 +20,12 @@ public class CustomUserDetails implements UserDetails {
         this.userId = user.getId();
         this.email = user.getEmail();
         this.password = user.getPassword();
-        this.authorities = List.of(() -> user.getRole().name());
+        this.authorities = List.of(() -> "ROLE_" + user.getRole().name());
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return authorities;
     }
 
     @Override

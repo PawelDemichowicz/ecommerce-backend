@@ -57,6 +57,7 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/products/**"
                         ).permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))

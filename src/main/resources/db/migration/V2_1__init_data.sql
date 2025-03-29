@@ -1,10 +1,10 @@
 INSERT INTO users (username, email, password, role)
 VALUES
-    ('john_doe', 'john.doe@example.com', 'password123', 'USER'),
-    ('jane_smith', 'jane.smith@example.com', 'password123', 'ADMIN'),
-    ('alice_jones', 'alice.jones@example.com', 'password123', 'USER'),
-    ('bob_brown', 'bob.brown@example.com', 'password123', 'USER'),
-    ('kelvin_kowalsky', 'kelvin.kowalsky@example.com', 'password123', 'USER');
+    ('john_doe', 'john.doe@example.com', '$2a$12$PAj3iEy87jxVBnszAH9k5uqmkoZo4HVkh2NR/nExSV6.1DO6yVSMO', 'USER'),
+    ('jane_smith', 'jane.smith@example.com', '$2a$12$PAj3iEy87jxVBnszAH9k5uqmkoZo4HVkh2NR/nExSV6.1DO6yVSMO', 'ADMIN'),
+    ('alice_jones', 'alice.jones@example.com', '$2a$12$PAj3iEy87jxVBnszAH9k5uqmkoZo4HVkh2NR/nExSV6.1DO6yVSMO', 'USER'),
+    ('bob_brown', 'bob.brown@example.com', '$2a$12$PAj3iEy87jxVBnszAH9k5uqmkoZo4HVkh2NR/nExSV6.1DO6yVSMO', 'USER'),
+    ('kelvin_kowalsky', 'kelvin.kowalsky@example.com', '$2a$12$PAj3iEy87jxVBnszAH9k5uqmkoZo4HVkh2NR/nExSV6.1DO6yVSMO', 'USER');
 
 INSERT INTO products (name, description, price, stock)
 VALUES
