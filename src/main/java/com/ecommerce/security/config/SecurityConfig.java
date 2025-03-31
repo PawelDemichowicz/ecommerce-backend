@@ -57,6 +57,8 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/products/**"
                         ).permitAll()
+                        .requestMatchers("/cart/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/orders/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
