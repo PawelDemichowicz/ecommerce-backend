@@ -1,6 +1,7 @@
 package com.ecommerce.database.repository;
 
 import com.ecommerce.business.domain.User;
+import com.ecommerce.database.entity.UserEntity;
 import com.ecommerce.database.entity.mapper.UserEntityMapper;
 import com.ecommerce.database.repository.jpa.UserJpaRepository;
 import lombok.AllArgsConstructor;
@@ -18,5 +19,15 @@ public class UserRepository {
     public Optional<User> findById(Integer userId) {
         return userJpaRepository.findById(userId)
                 .map(userEntityMapper::mapFromEntity);
+    }
+
+    public Optional<User> findByEmail(String email) {
+        return userJpaRepository.findByEmail(email)
+                .map(userEntityMapper::mapFromEntity);
+    }
+
+    public void save(User user) {
+        UserEntity userToSave = userEntityMapper.mapToEntity(user);
+        userJpaRepository.save(userToSave);
     }
 }

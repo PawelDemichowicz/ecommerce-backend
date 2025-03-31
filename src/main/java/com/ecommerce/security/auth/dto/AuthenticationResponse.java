@@ -1,4 +1,4 @@
-package com.ecommerce.api.dto;
+package com.ecommerce.security.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartItemDTO {
+public class AuthenticationResponse {
 
-    Integer id;
-    Integer productId;
-    Integer quantity;
+    private String token;
 }
