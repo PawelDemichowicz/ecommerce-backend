@@ -4,6 +4,7 @@ import com.ecommerce.security.auth.dto.AuthenticateRequest;
 import com.ecommerce.security.auth.dto.AuthenticationResponse;
 import com.ecommerce.security.auth.dto.RegisterRequest;
 import com.ecommerce.security.service.AuthenticationService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,14 +25,14 @@ public class AuthenticationController {
 
     @PostMapping(value = API_REGISTER)
     public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody RegisterRequest request
+            @RequestBody @Valid RegisterRequest request
     ) {
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
     @PostMapping(value = API_AUTHENTICATE)
     public ResponseEntity<AuthenticationResponse> authenticate(
-            @RequestBody AuthenticateRequest request
+            @RequestBody @Valid AuthenticateRequest request
     ) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
