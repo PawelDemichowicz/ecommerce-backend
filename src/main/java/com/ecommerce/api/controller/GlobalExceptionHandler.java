@@ -11,6 +11,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -18,7 +20,9 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice(annotations = RestController.class)
@@ -47,7 +51,35 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .timestamp(System.currentTimeMillis())
                 .build();
 
-        return super.handleExceptionInternal(ex, body, headers, statusCode, request);
+        return super.handleExceptionInternal(ex, exceptionMessage, headers, statusCode, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            @NonNull MethodArgumentNotValidException exception,
+            @NonNull HttpHeaders headers,
+            @NonNull HttpStatusCode statusCode,
+            @NonNull WebRequest request) {
+
+        final String errorId = generateErrorId(exception, statusCode);
+
+        Map<String, String> errors = exception.getBindingResult().getFieldErrors()
+                .stream()
+                .collect(Collectors.toMap(
+                        FieldError::getField,
+                        fieldError -> Optional
+                                .ofNullable(fieldError.getDefaultMessage()).orElse("Unknown validation error"),
+                        (existing, replacement) -> existing
+                ));
+
+        return ResponseEntity.status(statusCode).body(
+                Map.of(
+                        "errorId", errorId,
+                        "status", statusCode.value(),
+                        "message", "Validation failed",
+                        "errors", errors,
+                        "timestamp", System.currentTimeMillis()
+                ));
     }
 
     @ExceptionHandler(Exception.class)
