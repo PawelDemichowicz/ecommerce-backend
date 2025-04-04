@@ -11,7 +11,5 @@ public interface ProductMapper {
 
     Product mapFromRequestDTO(ProductRequestDTO productRequestDTO);
 
-    ProductRequestDTO mapToRequestDTO(Product product);
-
     ProductResponseDTO mapToResponseDTO(Product product);
 }

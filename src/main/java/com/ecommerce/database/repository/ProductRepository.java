@@ -39,10 +39,10 @@ public class ProductRepository {
         return productEntityMapper.mapFromEntity(productJpaRepository.save(productToSave));
     }
 
-    public void updateProduct(Integer productId, Product product) {
+    public Product updateProduct(Integer productId, Product product) {
         ProductEntity productToSave = productEntityMapper.mapToEntity(product);
         productToSave.setId(productId);
-        productJpaRepository.save(productToSave);
+        return productEntityMapper.mapFromEntity(productJpaRepository.save(productToSave));
     }
 
     public void deleteById(Integer productId) {

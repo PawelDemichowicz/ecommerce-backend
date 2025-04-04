@@ -7,6 +7,8 @@ import com.ecommerce.business.domain.Product;
 import com.ecommerce.business.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,11 +24,12 @@ public class AdminController {
     private final ProductMapper productMapper;
 
     @PostMapping(value = API_ADMIN_PRODUCTS)
-    public ProductResponseDTO addProduct(
+    public ResponseEntity<ProductResponseDTO> addProduct(
             @RequestBody @Valid ProductRequestDTO productRequestDTO
     ) {
         Product product = productService.addProduct(productMapper.mapFromRequestDTO(productRequestDTO));
-        return productMapper.mapToResponseDTO(product);
+        ProductResponseDTO responseDTO = productMapper.mapToResponseDTO(product);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
     @PutMapping(value = API_ADMIN_PRODUCTS_ID)
@@ -35,8 +38,8 @@ public class AdminController {
             @RequestBody @Valid ProductRequestDTO productRequestDTO
     ) {
         Product productToUpdate = productMapper.mapFromRequestDTO(productRequestDTO);
-        Product product = productService.updateProduct(productId, productToUpdate);
-        return productMapper.mapToResponseDTO(product);
+        Product updatedProduct = productService.updateProduct(productId, productToUpdate);
+        return productMapper.mapToResponseDTO(updatedProduct);
     }
 
     @DeleteMapping(value = API_ADMIN_PRODUCTS_ID)

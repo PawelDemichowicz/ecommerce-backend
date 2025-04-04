@@ -40,9 +40,8 @@ public class ProductService {
     @Transactional
     public Product updateProduct(Integer productId, Product product) {
         Product existingProduct = getProductById(productId);
-        Product newProduct = buildProduct(existingProduct, product);
-        productRepository.updateProduct(productId, newProduct);
-        return newProduct;
+        Product updatedProduct = buildProduct(existingProduct, product);
+        return productRepository.updateProduct(productId, updatedProduct);
     }
 
     @Transactional
