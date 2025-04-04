@@ -34,9 +34,9 @@ public class ProductRepository {
                 .toList();
     }
 
-    public void saveProduct(Product product) {
+    public Product saveProduct(Product product) {
         ProductEntity productToSave = productEntityMapper.mapToEntity(product);
-        productJpaRepository.save(productToSave);
+        return productEntityMapper.mapFromEntity(productJpaRepository.save(productToSave));
     }
 
     public void updateProduct(Integer productId, Product product) {
