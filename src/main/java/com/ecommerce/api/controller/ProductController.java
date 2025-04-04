@@ -1,6 +1,6 @@
 package com.ecommerce.api.controller;
 
-import com.ecommerce.api.dto.ProductDTO;
+import com.ecommerce.api.dto.ProductResponseDTO;
 import com.ecommerce.api.dto.ProductsDTO;
 import com.ecommerce.api.dto.mapper.ProductMapper;
 import com.ecommerce.business.service.ProductService;
@@ -20,10 +20,10 @@ public class ProductController {
     private final ProductMapper productMapper;
 
     @GetMapping(value = API_PRODUCT_ID)
-    public ProductDTO getProduct(
+    public ProductResponseDTO getProduct(
             @PathVariable Integer productId
     ) {
-        return productMapper.mapToDTO(productService.getProductById(productId));
+        return productMapper.mapToResponseDTO(productService.getProductById(productId));
     }
 
     @GetMapping(value = API_PRODUCT_SEARCH)
@@ -32,7 +32,7 @@ public class ProductController {
     ) {
         return ProductsDTO.builder()
                 .products(productService.getProductsByName(name).stream()
-                        .map(productMapper::mapToDTO)
+                        .map(productMapper::mapToResponseDTO)
                         .toList())
                 .build();
     }
@@ -41,7 +41,7 @@ public class ProductController {
     public ProductsDTO getAllProducts() {
         return ProductsDTO.builder()
                 .products(productService.getAllProducts().stream()
-                        .map(productMapper::mapToDTO)
+                        .map(productMapper::mapToResponseDTO)
                         .toList())
                 .build();
     }

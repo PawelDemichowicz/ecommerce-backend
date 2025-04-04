@@ -1,6 +1,7 @@
 package com.ecommerce.api.dto.mapper;
 
-import com.ecommerce.api.dto.ProductDTO;
+import com.ecommerce.api.dto.ProductRequestDTO;
+import com.ecommerce.api.dto.ProductResponseDTO;
 import com.ecommerce.business.domain.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -8,7 +9,9 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ProductMapper {
 
-    Product mapFromDTO(ProductDTO productDTO);
+    Product mapFromRequestDTO(ProductRequestDTO productRequestDTO);
 
-    ProductDTO mapToDTO(Product product);
+    ProductRequestDTO mapToRequestDTO(Product product);
+
+    ProductResponseDTO mapToResponseDTO(Product product);
 }

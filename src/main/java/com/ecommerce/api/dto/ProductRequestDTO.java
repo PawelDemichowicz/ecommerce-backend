@@ -12,9 +12,7 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDTO {
-
-    Integer id;
+public class ProductRequestDTO {
 
     @NotBlank(message = "Product name is required")
     @Size(min = 3, max = 100, message = "Product name must be between 3 and 100 characters long")

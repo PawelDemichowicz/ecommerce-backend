@@ -11,9 +11,11 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderItemDTO {
+public class ProductResponseDTO {
 
-    ProductResponseDTO product;
-    Integer quantity;
+    Integer id;
+    String name;
+    String description;
     BigDecimal price;
+    Integer stock;
 }
