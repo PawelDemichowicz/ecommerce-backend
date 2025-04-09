@@ -1,6 +1,6 @@
 package com.ecommerce.api.controller;
 
-import com.ecommerce.api.dto.ProductResponseDTO;
+import com.ecommerce.api.dto.response.ProductResponseDTO;
 import com.ecommerce.api.dto.ProductsDTO;
 import com.ecommerce.api.dto.mapper.ProductMapper;
 import com.ecommerce.business.service.ProductService;

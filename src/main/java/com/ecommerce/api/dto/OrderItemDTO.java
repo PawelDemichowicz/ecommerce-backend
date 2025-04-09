@@ -1,5 +1,6 @@
 package com.ecommerce.api.dto;
 
+import com.ecommerce.api.dto.response.ProductResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

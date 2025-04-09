@@ -1,7 +1,7 @@
 package com.ecommerce.api.dto.mapper;
 
-import com.ecommerce.api.dto.ProductRequestDTO;
-import com.ecommerce.api.dto.ProductResponseDTO;
+import com.ecommerce.api.dto.request.ProductRequestDTO;
+import com.ecommerce.api.dto.response.ProductResponseDTO;
 import com.ecommerce.business.domain.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
