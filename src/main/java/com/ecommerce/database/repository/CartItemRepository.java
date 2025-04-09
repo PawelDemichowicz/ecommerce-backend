@@ -33,9 +33,9 @@ public class CartItemRepository {
                 .map(cartItemEntityMapper::mapFromEntity);
     }
 
-    public void saveCartItem(CartItem cartItem) {
+    public CartItem saveCartItem(CartItem cartItem) {
         CartItemEntity cartItemToSave = cartItemEntityMapper.mapToEntity(cartItem);
-        cartItemJpaRepository.save(cartItemToSave);
+        return cartItemEntityMapper.mapFromEntity(cartItemJpaRepository.save(cartItemToSave));
     }
 
     public void deleteById(Integer cartItemId) {

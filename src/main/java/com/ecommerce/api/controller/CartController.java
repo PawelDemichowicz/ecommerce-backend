@@ -1,8 +1,9 @@
 package com.ecommerce.api.controller;
 
-import com.ecommerce.api.dto.CartItemDTO;
 import com.ecommerce.api.dto.CartItemsDTO;
 import com.ecommerce.api.dto.mapper.CartItemMapper;
+import com.ecommerce.api.dto.request.CartItemRequestDTO;
+import com.ecommerce.api.dto.response.CartItemResponseDTO;
 import com.ecommerce.business.domain.CartItem;
 import com.ecommerce.business.service.CartService;
 import com.ecommerce.security.util.CustomUserDetails;
@@ -32,27 +33,28 @@ public class CartController {
         Integer userId = userDetails.getUserId();
         CartItemsDTO cartItems = CartItemsDTO.builder()
                 .cartItems(cartService.getCartItemsByUser(userId).stream()
-                        .map(cartItemMapper::mapToDTO)
+                        .map(cartItemMapper::mapToResponseDTO)
                         .toList())
                 .build();
         return ResponseEntity.ok(cartItems);
     }
 
     @PostMapping
-    public CartItemDTO addToCart(
+    public CartItemResponseDTO addToCart(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody @Valid CartItemDTO cartItemDTO
+            @RequestBody @Valid CartItemRequestDTO cartItemDTO
     ) {
         Integer userId = userDetails.getUserId();
-        CartItem cartItem = cartItemMapper.mapFromDTO(cartItemDTO);
-        cartService.addToCart(userId, cartItemDTO.getProductId(), cartItemDTO.getQuantity());
-        return cartItemMapper.mapToDTO(cartItem);
+        CartItem savedCartItem = cartService.addToCart(userId, cartItemDTO.getProductId(), cartItemDTO.getQuantity());
+        return cartItemMapper.mapToResponseDTO(savedCartItem);
     }
 
     @DeleteMapping(value = API_CART_ID)
     public void removeItemFromCart(
-            @PathVariable Integer cartItemId
+            @PathVariable Integer cartItemId,
+            @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
+        Integer userId = userDetails.getUserId();
         cartService.removeFromCart(cartItemId);
     }
 

@@ -36,7 +36,7 @@ public class CartService {
     }
 
     @Transactional
-    public void addToCart(Integer userId, Integer productId, Integer quantity) {
+    public CartItem addToCart(Integer userId, Integer productId, Integer quantity) {
         User user = userService.getUserById(userId);
         Product product = productService.getProductById(productId);
         Optional<CartItem> existingCartItem = cartItemRepository.findByUserAndProduct(userId, productId);
@@ -44,14 +44,14 @@ public class CartService {
         if (existingCartItem.isPresent()) {
             CartItem cartItem = existingCartItem.get();
             CartItem newCartItem = cartItem.withQuantity(cartItem.getQuantity() + quantity);
-            cartItemRepository.saveCartItem(newCartItem);
+            return cartItemRepository.saveCartItem(newCartItem);
         } else {
             CartItem cartItem = CartItem.builder()
                     .user(user)
                     .product(product)
                     .quantity(quantity)
                     .build();
-            cartItemRepository.saveCartItem(cartItem);
+            return cartItemRepository.saveCartItem(cartItem);
         }
     }
 

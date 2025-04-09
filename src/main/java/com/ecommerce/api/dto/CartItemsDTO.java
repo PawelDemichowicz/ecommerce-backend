@@ -1,5 +1,6 @@
 package com.ecommerce.api.dto;
 
+import com.ecommerce.api.dto.response.CartItemResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,5 +14,5 @@ import java.util.List;
 @AllArgsConstructor
 public class CartItemsDTO {
 
-    List<CartItemDTO> cartItems;
+    List<CartItemResponseDTO> cartItems;
 }
