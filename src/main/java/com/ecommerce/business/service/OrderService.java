@@ -32,6 +32,12 @@ public class OrderService {
     }
 
     @Transactional
+    public Order getOrderByOrderIdAndUserId(Integer userId, Integer orderId) {
+        return orderRepository.findByIdAndUserId(orderId, userId)
+                .orElseThrow(() -> new NotFoundException("Could not find order by id: [%s]".formatted(orderId)));
+    }
+
+    @Transactional
     public List<Order> getOrdersByUser(Integer userId) {
         return orderRepository.findByUser(userId);
     }
@@ -54,8 +60,8 @@ public class OrderService {
     }
 
     @Transactional
-    public Order cancelOrder(Integer orderId) {
-        Order order = getOrder(orderId);
+    public Order cancelOrder(Integer userId, Integer orderId) {
+        Order order = getOrderByOrderIdAndUserId(userId, orderId);
 
         if (!order.getStatus().equals(OrderStatus.PENDING)) {
             throw new ProcessingException("Only pending orders can be cancelled");

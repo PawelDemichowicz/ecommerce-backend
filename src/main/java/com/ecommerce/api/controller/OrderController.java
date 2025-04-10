@@ -25,9 +25,11 @@ public class OrderController {
 
     @GetMapping(value = API_ORDER_ID)
     public OrderDTO getOrder(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             @PathVariable Integer orderId
     ) {
-        return orderMapper.mapToDTO(orderService.getOrder(orderId));
+        Integer userId = userDetails.getUserId();
+        return orderMapper.mapToDTO(orderService.getOrderByOrderIdAndUserId(userId,orderId));
     }
 
     @GetMapping
@@ -54,9 +56,11 @@ public class OrderController {
 
     @PatchMapping(value = API_ORDER_ID_CANCEL)
     public OrderDTO cancelOrder(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             @PathVariable Integer orderId
     ) {
-        Order order = orderService.cancelOrder(orderId);
+        Integer userId = userDetails.getUserId();
+        Order order = orderService.cancelOrder(userId, orderId);
         return orderMapper.mapToDTO(order);
     }
 }

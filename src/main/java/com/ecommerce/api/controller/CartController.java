@@ -55,7 +55,7 @@ public class CartController {
             @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
         Integer userId = userDetails.getUserId();
-        cartService.removeFromCart(cartItemId);
+        cartService.removeFromCart(userId, cartItemId);
     }
 
     @DeleteMapping(value = API_CART_CLEAR)

@@ -27,6 +27,11 @@ public class OrderRepository {
                 .map(orderEntityMapper::mapFromEntity);
     }
 
+    public Optional<Order> findByIdAndUserId(Integer orderId, Integer userId) {
+        return orderJpaRepository.findByIdAndUserId(orderId, userId)
+                .map(orderEntityMapper::mapFromEntity);
+    }
+
     public List<Order> findByUser(Integer userId) {
         return orderJpaRepository.findByUserId(userId).stream()
                 .map(orderEntityMapper::mapFromEntity)
