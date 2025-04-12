@@ -1,6 +1,7 @@
 package com.ecommerce.api.controller;
 
 import com.ecommerce.api.dto.request.ProductRequestDTO;
+import com.ecommerce.api.dto.request.ProductUpdateRequestDTO;
 import com.ecommerce.api.dto.response.ProductResponseDTO;
 import com.ecommerce.api.dto.mapper.ProductMapper;
 import com.ecommerce.business.domain.Product;
@@ -35,9 +36,9 @@ public class AdminController {
     @PutMapping(value = API_ADMIN_PRODUCTS_ID)
     public ProductResponseDTO updateProduct(
             @PathVariable Integer productId,
-            @RequestBody @Valid ProductRequestDTO productRequestDTO
+            @RequestBody @Valid ProductUpdateRequestDTO productUpdateRequestDTO
     ) {
-        Product productToUpdate = productMapper.mapFromRequestDTO(productRequestDTO);
+        Product productToUpdate = productMapper.mapFromUpdateRequestDTO(productUpdateRequestDTO);
         Product updatedProduct = productService.updateProduct(productId, productToUpdate);
         return productMapper.mapToResponseDTO(updatedProduct);
     }
