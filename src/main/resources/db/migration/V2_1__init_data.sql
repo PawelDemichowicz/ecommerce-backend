@@ -28,9 +28,9 @@ VALUES
     (3, NOW(), 'DELIVERED'),
     (4, NOW(), 'CANCELLED');
 
-INSERT INTO order_items (order_id, product_id, quantity, price)
+INSERT INTO order_items (order_id, product_id, product_name, product_description, product_price, total_price, quantity)
 VALUES
-    (1, 1, 2, 15000),        -- John Doe ordered 2 Laptops
-    (2, 2, 1, 5000.50),      -- Jane Smith ordered 1 Smartphone
-    (3, 3, 1, 199.99),       -- Alice Jones ordered 1 Headphones
-    (4, 4, 3, 3750);         -- Bob Brown ordered 3 Smartwatches
+    (1, 1, 'Laptop', 'A powerful laptop for professionals',7500, 15000, 2),                  -- John Doe ordered 2 Laptops
+    (2, 2, 'Smartphone', 'A modern smartphone with great features', 5000.50, 5000.50, 1),        -- Jane Smith ordered 1 Smartphone
+    (3, 3, 'Headphones', 'Noise-cancelling headphones', 199.99, 199.99, 1),                     -- Alice Jones ordered 1 Headphones
+    (4, 4, 'Smartwatch', 'A stylish smartwatch with fitness tracking', 1250, 3750, 3);         -- Bob Brown ordered 3 Smartwatches

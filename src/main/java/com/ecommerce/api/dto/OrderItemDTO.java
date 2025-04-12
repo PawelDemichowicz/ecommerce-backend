@@ -1,6 +1,5 @@
 package com.ecommerce.api.dto;
 
-import com.ecommerce.api.dto.response.ProductResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +13,10 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class OrderItemDTO {
 
-    ProductResponseDTO product;
+    Integer productId;
+    String productName;
+    String productDescription;
+    BigDecimal productPrice;
+    BigDecimal totalPrice;
     Integer quantity;
-    BigDecimal price;
 }

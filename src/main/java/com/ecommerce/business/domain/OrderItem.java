@@ -11,7 +11,10 @@ public class OrderItem {
 
     Integer id;
     Order order;
-    Product product;
+    Integer productId;
+    String productName;
+    String productDescription;
+    BigDecimal productPrice;
+    BigDecimal totalPrice;
     Integer quantity;
-    BigDecimal price;
 }

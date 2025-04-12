@@ -76,9 +76,13 @@ public class OrderService {
     private List<OrderItem> buildOrderItems(List<CartItem> cartItems) {
         return cartItems.stream()
                 .map(cartItem -> OrderItem.builder()
-                        .product(cartItem.getProduct())
+                        .productId(cartItem.getProduct().getId())
+                        .productName(cartItem.getProduct().getName())
+                        .productDescription(cartItem.getProduct().getDescription())
+                        .productPrice(cartItem.getProduct().getPrice())
+                        .totalPrice(cartItem.getProduct().getPrice()
+                                .multiply(BigDecimal.valueOf(cartItem.getQuantity())))
                         .quantity(cartItem.getQuantity())
-                        .price(cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())))
                         .build())
                 .toList();
     }
