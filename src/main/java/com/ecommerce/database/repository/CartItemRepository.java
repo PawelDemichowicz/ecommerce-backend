@@ -45,4 +45,8 @@ public class CartItemRepository {
     public void deleteByUserId(Integer userId) {
         cartItemJpaRepository.deleteByUserId(userId);
     }
+
+    public void deleteByProductId(Integer productId) {
+        cartItemJpaRepository.deleteByProductId(productId);
+    }
 }

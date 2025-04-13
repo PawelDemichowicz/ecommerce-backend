@@ -2,8 +2,10 @@ package com.ecommerce.business.service;
 
 import com.ecommerce.business.domain.Product;
 import com.ecommerce.business.exception.NotFoundException;
+import com.ecommerce.database.repository.CartItemRepository;
 import com.ecommerce.database.repository.ProductRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +16,7 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final CartItemRepository cartItemRepository;
 
     @Transactional
     public Product getProductById(Integer productId) {
@@ -46,6 +49,7 @@ public class ProductService {
 
     @Transactional
     public void deleteProduct(Integer productId) {
+        cartItemRepository.deleteByProductId(productId);
         productRepository.deleteById(productId);
     }
 
