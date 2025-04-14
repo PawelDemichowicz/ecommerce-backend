@@ -24,6 +24,7 @@ public class OrderService {
 
     private final UserService userService;
     private final CartService cartService;
+    private final ProductService productService;
 
     @Transactional
     public Order getOrder(Integer orderId) {
@@ -51,6 +52,10 @@ public class OrderService {
             throw new ProcessingException("Cannot place order with an empty cart");
         }
 
+        for (CartItem cartItem : cartItems) {
+            productService.decreaseStock(cartItem.getProduct().getId(), cartItem.getQuantity());
+        }
+
         List<OrderItem> orderItems = buildOrderItems(cartItems);
         Order order = buildOrder(user, orderItems);
 
@@ -65,6 +70,10 @@ public class OrderService {
 
         if (!order.getStatus().equals(OrderStatus.PENDING)) {
             throw new ProcessingException("Only pending orders can be cancelled");
+        }
+
+        for (OrderItem orderItem : order.getOrderItems()) {
+            productService.increaseStock(orderItem.getProductId(), orderItem.getQuantity());
         }
 
         Order updatedOrder = order.withStatus(OrderStatus.CANCELLED);

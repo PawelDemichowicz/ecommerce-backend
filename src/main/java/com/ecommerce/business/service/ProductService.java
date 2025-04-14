@@ -2,10 +2,10 @@ package com.ecommerce.business.service;
 
 import com.ecommerce.business.domain.Product;
 import com.ecommerce.business.exception.NotFoundException;
+import com.ecommerce.business.exception.ProcessingException;
 import com.ecommerce.database.repository.CartItemRepository;
 import com.ecommerce.database.repository.ProductRepository;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,6 +51,28 @@ public class ProductService {
     public void deleteProduct(Integer productId) {
         cartItemRepository.deleteByProductId(productId);
         productRepository.deleteById(productId);
+    }
+
+    @Transactional
+    public void decreaseStock(Integer productId, Integer quantity) {
+        Product product = getProductById(productId);
+        validateStock(product, quantity);
+
+        Product updatedProduct = product.withStock(product.getStock() - quantity);
+        updateProduct(productId, updatedProduct);
+    }
+
+    @Transactional
+    public void increaseStock(Integer productId, Integer quantity) {
+        Product product = getProductById(productId);
+        Product updatedProduct = product.withStock(product.getStock() + quantity);
+        updateProduct(productId, updatedProduct);
+    }
+
+    public void validateStock(Product product, Integer requestedQuantity) {
+        if (product.getStock() < requestedQuantity) {
+            throw new ProcessingException("Not enough stock for product with id: [%s]".formatted(product.getId()));
+        }
     }
 
     private Product buildProduct(Product existingProduct, Product newProduct) {

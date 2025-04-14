@@ -39,6 +39,9 @@ public class CartService {
     public CartItem addToCart(Integer userId, Integer productId, Integer quantity) {
         User user = userService.getUserById(userId);
         Product product = productService.getProductById(productId);
+
+        productService.validateStock(product, quantity);
+
         Optional<CartItem> existingCartItem = cartItemRepository.findByUserAndProduct(userId, productId);
 
         if (existingCartItem.isPresent()) {
