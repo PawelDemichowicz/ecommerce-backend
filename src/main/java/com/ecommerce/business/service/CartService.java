@@ -25,12 +25,6 @@ public class CartService {
     private final UserService userService;
 
     @Transactional
-    public CartItem getCartItem(Integer cartItemId) {
-        return cartItemRepository.findById(cartItemId)
-                .orElseThrow(() -> new NotFoundException("Could not find cart by id: [%s]".formatted(cartItemId)));
-    }
-
-    @Transactional
     public List<CartItem> getCartItemsByUser(Integer userId) {
         return cartItemRepository.findByUserId(userId);
     }
