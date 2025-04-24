@@ -10,7 +10,7 @@ import java.util.List;
 
 @With
 @Value
-@Builder
+@Builder(toBuilder = true)
 public class Order {
 
     Integer id;
