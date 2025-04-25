@@ -1,7 +1,8 @@
-package com.ecommerce.business.service;
+package com.ecommerce.unit.service;
 
 import com.ecommerce.business.domain.User;
 import com.ecommerce.business.exception.NotFoundException;
+import com.ecommerce.business.service.UserService;
 import com.ecommerce.database.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,10 +1,13 @@
-package com.ecommerce.business.service;
+package com.ecommerce.unit.service;
 
 import com.ecommerce.business.domain.CartItem;
 import com.ecommerce.business.domain.Product;
 import com.ecommerce.business.domain.User;
 import com.ecommerce.business.exception.NotFoundException;
 import com.ecommerce.business.exception.ProcessingException;
+import com.ecommerce.business.service.CartService;
+import com.ecommerce.business.service.ProductService;
+import com.ecommerce.business.service.UserService;
 import com.ecommerce.database.repository.CartItemRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
