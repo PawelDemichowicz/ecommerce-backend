@@ -58,8 +58,8 @@ public class OrderRepository {
         return orderEntityMapper.mapFromEntity(orderSaved);
     }
 
-    public void saveOrder(Order order) {
+    public Order saveOrder(Order order) {
         OrderEntity orderToSave = orderEntityMapper.mapToEntity(order);
-        orderJpaRepository.saveAndFlush(orderToSave);
+        return orderEntityMapper.mapFromEntity(orderJpaRepository.saveAndFlush(orderToSave));
     }
 }
