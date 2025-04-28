@@ -36,7 +36,6 @@ public class OrderRepositoryJpaIT extends AbstractJpaIT {
 
     private OrderRepository orderRepository;
     private UserRepository userRepository;
-    private ProductRepository productRepository;
 
     @Test
     void shouldFindOrderById() {
