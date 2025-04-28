@@ -1,8 +1,6 @@
 package com.ecommerce.util;
 
-import com.ecommerce.business.domain.Order;
-import com.ecommerce.business.domain.OrderItem;
-import com.ecommerce.business.domain.User;
+import com.ecommerce.business.domain.*;
 import com.ecommerce.database.entity.enums.OrderStatus;
 import com.ecommerce.database.entity.enums.Role;
 import lombok.experimental.UtilityClass;
@@ -29,6 +27,40 @@ public class DomainFixtures {
                 .email("charlie@example.com")
                 .password("charlieBrownPass")
                 .role(Role.USER)
+                .build();
+    }
+
+    public static CartItem someCartItem1(User user, Product product) {
+        return CartItem.builder()
+                .user(user)
+                .product(product)
+                .quantity(1)
+                .build();
+    }
+
+    public static CartItem someCartItem2(User user, Product product) {
+        return CartItem.builder()
+                .user(user)
+                .product(product)
+                .quantity(2)
+                .build();
+    }
+
+    public static Product someProduct1() {
+        return Product.builder()
+                .name("Test product 1")
+                .description("Test description 1")
+                .price(BigDecimal.valueOf(100))
+                .stock(10)
+                .build();
+    }
+
+    public static Product someProduct2() {
+        return Product.builder()
+                .name("Test product 2")
+                .description("Test description 2")
+                .price(BigDecimal.valueOf(200))
+                .stock(5)
                 .build();
     }
 
