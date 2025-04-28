@@ -12,6 +12,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import static com.ecommerce.util.DomainFixtures.someProduct1;
+import static com.ecommerce.util.DomainFixtures.someProduct2;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Import({ProductRepository.class, ProductEntityMapperImpl.class})
@@ -23,24 +25,11 @@ public class ProductRepositoryJpaIT extends AbstractJpaIT {
     @Test
     void shouldSaveAndFindProductByIdAndName() {
         // given
-        Product someProduct1 = Product.builder()
-                .id(null)
-                .name("Test product")
-                .description("Some cool product")
-                .price(new BigDecimal("99.99"))
-                .stock(5)
-                .build();
-
-        Product someProduct2 = Product.builder()
-                .id(null)
-                .name("Test product 2")
-                .description("Even better product")
-                .price(new BigDecimal("109.99"))
-                .stock(2)
-                .build();
+        Product someProduct1 = someProduct1();
+        Product someProduct2 = someProduct2();
 
         // when
-        Product savedProduct1 = productRepository.saveProduct(someProduct1);
+        productRepository.saveProduct(someProduct1);
         Product savedProduct2 = productRepository.saveProduct(someProduct2);
 
         // then
@@ -50,30 +39,17 @@ public class ProductRepositoryJpaIT extends AbstractJpaIT {
 
         List<Product> foundByName = productRepository.findByName("product");
         assertThat(foundByName).hasSize(2);
-        assertThat(foundByName.get(0).getDescription()).isEqualTo("Some cool product");
+        assertThat(foundByName.get(0).getDescription()).isEqualTo("Test description 1");
     }
 
     @Test
     void shouldFindAllProducts() {
         // given
-        Product someProduct1 = Product.builder()
-                .id(null)
-                .name("Test product")
-                .description("Some cool product")
-                .price(new BigDecimal("99.99"))
-                .stock(5)
-                .build();
+        Product someProduct1 = someProduct1();
+        Product someProduct2 = someProduct2();
 
-        Product someProduct2 = Product.builder()
-                .id(null)
-                .name("Test product 2")
-                .description("Even better product")
-                .price(new BigDecimal("109.99"))
-                .stock(2)
-                .build();
-
-        Product savedProduct1 = productRepository.saveProduct(someProduct1);
-        Product savedProduct2 = productRepository.saveProduct(someProduct2);
+        productRepository.saveProduct(someProduct1);
+        productRepository.saveProduct(someProduct2);
 
         // when
         List<Product> allProducts = productRepository.findAll();
@@ -85,43 +61,29 @@ public class ProductRepositoryJpaIT extends AbstractJpaIT {
     @Test
     void shouldUpdateProduct() {
         // given
-        Product originalProduct = Product.builder()
-                .id(null)
-                .name("Old Name")
-                .description("Old Description")
-                .price(new BigDecimal("30"))
-                .stock(3)
-                .build();
+        Product originalProduct = someProduct1();
 
         Product savedProduct = productRepository.saveProduct(originalProduct);
 
-        Product updatedProduct = Product.builder()
-                .id(null)
-                .name("New Name")
-                .description("New Description")
-                .price(new BigDecimal("50"))
-                .stock(2)
-                .build();
+        Product updatedProduct = someProduct1()
+                .withName("New name")
+                .withDescription("New description")
+                .withPrice(new BigDecimal("50"))
+                .withStock(2);
 
         // when
         Product result = productRepository.updateProduct(savedProduct.getId(), updatedProduct);
 
         // then
         assertThat(result.getId()).isEqualTo(savedProduct.getId());
-        assertThat(result.getName()).isEqualTo("New Name");
+        assertThat(result.getName()).isEqualTo("New name");
         assertThat(result.getPrice()).isEqualTo(BigDecimal.valueOf(50));
     }
 
     @Test
     void shouldDeleteProductById() {
         // given
-        Product originalProduct = Product.builder()
-                .id(null)
-                .name("Old Name")
-                .description("Old Description")
-                .price(new BigDecimal("30"))
-                .stock(3)
-                .build();
+        Product originalProduct = someProduct1();
 
         Product savedProduct = productRepository.saveProduct(originalProduct);
 

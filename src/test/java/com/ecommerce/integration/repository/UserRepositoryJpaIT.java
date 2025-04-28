@@ -1,7 +1,6 @@
 package com.ecommerce.integration.repository;
 
 import com.ecommerce.business.domain.User;
-import com.ecommerce.database.entity.enums.Role;
 import com.ecommerce.database.entity.mapper.UserEntityMapperImpl;
 import com.ecommerce.database.repository.UserRepository;
 import com.ecommerce.integration.repository.configuration.AbstractJpaIT;
@@ -11,6 +10,7 @@ import org.springframework.context.annotation.Import;
 
 import java.util.Optional;
 
+import static com.ecommerce.util.DomainFixtures.someUser1;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Import({UserRepository.class, UserEntityMapperImpl.class})
@@ -22,13 +22,7 @@ class UserRepositoryJpaIT extends AbstractJpaIT {
     @Test
     void shouldSaveAndFindUserById() {
         // given
-        User user = User.builder()
-                .id(null)
-                .username("alice_wonder")
-                .email("alice@example.com")
-                .password("aliceSecurePass456")
-                .role(Role.ADMIN)
-                .build();
+        User user = someUser1();
 
         // when
         userRepository.save(user);
