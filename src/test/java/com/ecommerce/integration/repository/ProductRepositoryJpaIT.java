@@ -3,7 +3,7 @@ package com.ecommerce.integration.repository;
 import com.ecommerce.business.domain.Product;
 import com.ecommerce.database.entity.mapper.ProductEntityMapperImpl;
 import com.ecommerce.database.repository.ProductRepository;
-import com.ecommerce.integration.repository.configuration.AbstractJpaIT;
+import com.ecommerce.integration.configuration.AbstractJpaIT;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
