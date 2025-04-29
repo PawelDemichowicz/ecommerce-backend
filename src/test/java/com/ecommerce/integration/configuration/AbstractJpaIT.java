@@ -1,14 +1,14 @@
-package com.ecommerce.integration.repository.configuration;
+package com.ecommerce.integration.configuration;
 
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 
 @DataJpaTest
 @TestPropertySource(locations = "classpath:application-test.yml")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ContextConfiguration(initializers = DatabaseContainerInitializer.class)
+@Import(PersistenceContainerTestConfiguration.class)
 public abstract class AbstractJpaIT {
 
 }
