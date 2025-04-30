@@ -7,6 +7,7 @@ import com.ecommerce.business.domain.Order;
 import com.ecommerce.business.service.OrderService;
 import com.ecommerce.security.util.CustomUserDetails;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class OrderController {
             @PathVariable Integer orderId
     ) {
         Integer userId = userDetails.getUserId();
-        return orderMapper.mapToDTO(orderService.getOrderByOrderIdAndUserId(userId,orderId));
+        return orderMapper.mapToDTO(orderService.getOrderByOrderIdAndUserId(userId, orderId));
     }
 
     @GetMapping
@@ -46,12 +47,12 @@ public class OrderController {
     }
 
     @PostMapping
-    public OrderDTO placeOrder(
+    public ResponseEntity<OrderDTO> placeOrder(
             @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
         Integer userId = userDetails.getUserId();
         Order order = orderService.placeOrder(userId);
-        return orderMapper.mapToDTO(order);
+        return ResponseEntity.status(HttpStatus.CREATED).body(orderMapper.mapToDTO(order));
     }
 
     @PatchMapping(value = API_ORDER_ID_CANCEL)
