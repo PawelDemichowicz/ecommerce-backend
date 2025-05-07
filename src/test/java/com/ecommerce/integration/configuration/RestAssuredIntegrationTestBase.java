@@ -1,7 +1,6 @@
 package com.ecommerce.integration.configuration;
 
 import com.ecommerce.integration.support.ControllerTestSupport;
-import com.ecommerce.util.JwtTestUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.config.ObjectMapperConfig;
@@ -19,49 +18,53 @@ public abstract class RestAssuredIntegrationTestBase
     @Autowired
     protected ObjectMapper objectMapper;
 
-    @Autowired
-    protected JwtTestUtils jwtTestUtils;
-
-    private RequestSpecification authenticatedRequestSpecification;
-    private RequestSpecification unauthenticatedRequestSpecification;
+    private String userJWT;
+    private String adminJWT;
 
     @Override
     public ObjectMapper getObjectMapper() {
         return objectMapper;
     }
 
-    @Override
-    public RequestSpecification getAuthenticatedRequest() {
-        return authenticatedRequestSpecification;
-    }
-
-    @Override
-    public RequestSpecification getUnauthenticatedRequest() {
-        return unauthenticatedRequestSpecification;
-    }
-
     @BeforeAll
-    void setupRestAssured() {
-        String jwtToken = jwtTestUtils.generateTokenForUser(1, "john.doe@example.com");
+    protected void setupRestAssured() {
+        userJWT = authenticateUser(
+                "test.user@example.com",
+                "password123"
+        );
+        adminJWT = authenticateUser(
+                "test.admin@example.com",
+                "password123"
+        );
+    }
 
-        authenticatedRequestSpecification = RestAssured.given()
+    public RequestSpecification requestSpecificationNoAuthorization() {
+        return restAssuredBase();
+    }
+
+    public RequestSpecification requestSpecificationUserAuthorization() {
+        return restAssuredBase()
+                .header("Authorization", "Bearer " + userJWT);
+    }
+
+    public RequestSpecification requestSpecificationAdminAuthorization() {
+        return restAssuredBase()
+                .header("Authorization", "Bearer " + adminJWT);
+    }
+
+    private RequestSpecification restAssuredBase() {
+        return RestAssured
+                .given()
                 .config(getRestAssuredConfig())
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
-                .port(port)
                 .basePath(basePath)
-                .header("Authorization", "Bearer " + jwtToken);
-
-        unauthenticatedRequestSpecification = RestAssured.given()
-                .config(getRestAssuredConfig())
-                .accept(ContentType.JSON)
-                .contentType(ContentType.JSON)
-                .port(port)
-                .basePath(basePath);
+                .port(port);
     }
 
     private RestAssuredConfig getRestAssuredConfig() {
-        return RestAssuredConfig.config()
+        return RestAssuredConfig
+                .config()
                 .objectMapperConfig(new ObjectMapperConfig()
                         .jackson2ObjectMapperFactory((type, s) -> objectMapper));
     }
