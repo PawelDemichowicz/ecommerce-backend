@@ -4,7 +4,9 @@ VALUES
     ('jane_smith', 'jane.smith@example.com', '$2a$12$PAj3iEy87jxVBnszAH9k5uqmkoZo4HVkh2NR/nExSV6.1DO6yVSMO', 'ADMIN'),
     ('alice_jones', 'alice.jones@example.com', '$2a$12$PAj3iEy87jxVBnszAH9k5uqmkoZo4HVkh2NR/nExSV6.1DO6yVSMO', 'USER'),
     ('bob_brown', 'bob.brown@example.com', '$2a$12$PAj3iEy87jxVBnszAH9k5uqmkoZo4HVkh2NR/nExSV6.1DO6yVSMO', 'USER'),
-    ('kelvin_kowalsky', 'kelvin.kowalsky@example.com', '$2a$12$PAj3iEy87jxVBnszAH9k5uqmkoZo4HVkh2NR/nExSV6.1DO6yVSMO', 'USER');
+    ('kelvin_kowalsky', 'kelvin.kowalsky@example.com', '$2a$12$PAj3iEy87jxVBnszAH9k5uqmkoZo4HVkh2NR/nExSV6.1DO6yVSMO', 'USER'),
+    ('test_user', 'test.user@example.com', '$2a$12$PAj3iEy87jxVBnszAH9k5uqmkoZo4HVkh2NR/nExSV6.1DO6yVSMO', 'USER'),
+    ('test_admin', 'test.admin@example.com', '$2a$12$PAj3iEy87jxVBnszAH9k5uqmkoZo4HVkh2NR/nExSV6.1DO6yVSMO', 'ADMIN');
 
 INSERT INTO products (name, description, price, stock)
 VALUES
