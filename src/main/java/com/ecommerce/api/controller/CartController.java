@@ -9,6 +9,7 @@ import com.ecommerce.business.service.CartService;
 import com.ecommerce.security.util.CustomUserDetails;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -40,13 +41,14 @@ public class CartController {
     }
 
     @PostMapping
-    public CartItemResponseDTO addToCart(
+    public ResponseEntity<CartItemResponseDTO> addItemToCart(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestBody @Valid CartItemRequestDTO cartItemDTO
     ) {
         Integer userId = userDetails.getUserId();
         CartItem savedCartItem = cartService.addToCart(userId, cartItemDTO.getProductId(), cartItemDTO.getQuantity());
-        return cartItemMapper.mapToResponseDTO(savedCartItem);
+        CartItemResponseDTO cartItemResponseDTO = cartItemMapper.mapToResponseDTO(savedCartItem);
+        return ResponseEntity.status(HttpStatus.CREATED).body(cartItemResponseDTO);
     }
 
     @DeleteMapping(value = API_CART_ID)

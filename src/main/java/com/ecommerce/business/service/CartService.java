@@ -55,7 +55,7 @@ public class CartService {
     @Transactional
     public void removeFromCart(Integer userId, Integer cartItemId) {
         CartItem cartItem = cartItemRepository.findById(cartItemId)
-                .orElseThrow(() -> new NotFoundException("Could not find order by id: [%s]".formatted(cartItemId)));
+                .orElseThrow(() -> new NotFoundException("Could not find cart item by id: [%s]".formatted(cartItemId)));
 
         if (!cartItem.getUser().getId().equals(userId)) {
             throw new NotFoundException("Could not find cart item by id: [%s]".formatted(cartItemId));
