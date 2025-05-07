@@ -204,7 +204,7 @@ class CartServiceTest {
         // when & then
         Throwable exception = assertThrows(NotFoundException.class,
                 () -> cartService.removeFromCart(userId, cartItemId));
-        assertEquals("Could not find order by id: [%s]".formatted(cartItemId), exception.getMessage());
+        assertEquals("Could not find cart item by id: [%s]".formatted(cartItemId), exception.getMessage());
     }
 
     @Test
