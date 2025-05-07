@@ -24,8 +24,14 @@ public class AuthenticationService {
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
-        var user = buildUser(request);
+    public AuthenticationResponse registerUser(RegisterRequest request) {
+        var user = buildUser(request, Role.USER);
+        userRepository.save(user);
+        return buildToken(user);
+    }
+
+    public AuthenticationResponse registerAdmin(RegisterRequest request) {
+        var user = buildUser(request, Role.ADMIN);
         userRepository.save(user);
         return buildToken(user);
     }
@@ -43,12 +49,12 @@ public class AuthenticationService {
         return buildToken(user);
     }
 
-    private User buildUser(RegisterRequest request) {
+    private User buildUser(RegisterRequest request, Role role) {
         return User.builder()
                 .email(request.getEmail())
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .role(role)
                 .build();
     }
 
