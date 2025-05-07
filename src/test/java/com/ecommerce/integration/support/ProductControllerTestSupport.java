@@ -8,10 +8,10 @@ import org.springframework.http.HttpStatus;
 
 public interface ProductControllerTestSupport {
 
-    RequestSpecification requestSpecification();
+    RequestSpecification requestSpecificationNoAuthorization();
 
     default ProductResponseDTO getProductById(Integer productId) {
-        return requestSpecification()
+        return requestSpecificationNoAuthorization()
                 .get(ProductController.API_PRODUCTS + "/" + productId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
@@ -20,7 +20,7 @@ public interface ProductControllerTestSupport {
     }
 
     default ProductsDTO getProductsByName(String productName) {
-        return requestSpecification()
+        return requestSpecificationNoAuthorization()
                 .queryParam("productName", productName)
                 .get(ProductController.API_PRODUCTS + ProductController.API_PRODUCT_SEARCH)
                 .then()
@@ -30,7 +30,7 @@ public interface ProductControllerTestSupport {
     }
 
     default ProductsDTO getAllProducts() {
-        return requestSpecification()
+        return requestSpecificationNoAuthorization()
                 .get(ProductController.API_PRODUCTS)
                 .then()
                 .statusCode(HttpStatus.OK.value())
