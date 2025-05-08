@@ -7,11 +7,9 @@ import io.restassured.config.ObjectMapperConfig;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public abstract class RestAssuredIntegrationTestBase
         extends AbstractIT implements ControllerTestSupport {
 
@@ -26,16 +24,10 @@ public abstract class RestAssuredIntegrationTestBase
         return objectMapper;
     }
 
-    @BeforeAll
+    @BeforeEach
     protected void setupRestAssured() {
-        userJWT = authenticateUser(
-                "test.user@example.com",
-                "password123"
-        );
-        adminJWT = authenticateUser(
-                "test.admin@example.com",
-                "password123"
-        );
+        userJWT = registerAndAuthenticateUser();
+        adminJWT = authenticateTestMasterAdmin();
     }
 
     public RequestSpecification requestSpecificationNoAuthorization() {
