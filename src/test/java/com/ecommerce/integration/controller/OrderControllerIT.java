@@ -1,64 +1,102 @@
 package com.ecommerce.integration.controller;
 
+import com.ecommerce.api.dto.CartItemsDTO;
 import com.ecommerce.api.dto.OrderDTO;
 import com.ecommerce.api.dto.OrdersDTO;
+import com.ecommerce.api.dto.request.ProductRequestDTO;
+import com.ecommerce.api.dto.response.ProductResponseDTO;
 import com.ecommerce.database.entity.enums.OrderStatus;
 import com.ecommerce.integration.configuration.RestAssuredIntegrationTestBase;
+import com.ecommerce.integration.support.AdminControllerTestSupport;
+import com.ecommerce.integration.support.CartControllerTestSupport;
 import com.ecommerce.integration.support.OrderControllerTestSupport;
-import io.restassured.specification.RequestSpecification;
+import com.ecommerce.util.DtoFixtures;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class OrderControllerIT
-        extends RestAssuredIntegrationTestBase implements OrderControllerTestSupport {
-
-    @Override
-    public RequestSpecification requestSpecification() {
-        return getAuthenticatedRequest();
-    }
+        extends RestAssuredIntegrationTestBase
+        implements OrderControllerTestSupport, AdminControllerTestSupport, CartControllerTestSupport {
 
     @Test
-    void shouldReturnProductById() {
-        // given & when
-        OrderDTO result = getOrderById(1);
+    void shouldReturnOrderById() {
+        // given
+        ProductRequestDTO requestProduct = DtoFixtures.someProductRequestDTO();
+        ProductResponseDTO addedProduct = addProduct(requestProduct);
+
+        addItemToCart(addedProduct.getId(), 2);
+        OrderDTO placedOrder = placeOrder();
+
+        // when
+        OrderDTO foundOrder = getOrderById(placedOrder.getId());
 
         // then
-        assertThat(result.getId()).isEqualTo(1);
-        assertThat(result.getUser().getEmail()).isEqualTo("john.doe@example.com");
-        assertThat(result.getStatus()).isEqualTo(OrderStatus.PENDING);
+        assertThat(foundOrder.getId()).isEqualTo(placedOrder.getId());
+        assertThat(foundOrder.getOrderItems().get(0).getProductId()).isEqualTo(addedProduct.getId());
+        assertThat(foundOrder.getOrderItems().get(0).getQuantity()).isEqualTo(2);
+        assertThat(foundOrder.getStatus()).isEqualTo(OrderStatus.PENDING);
     }
 
     @Test
     void shouldReturnOrdersForUser() {
+        // given
+        ProductRequestDTO requestProduct = DtoFixtures.someProductRequestDTO();
+        ProductResponseDTO addedProduct = addProduct(requestProduct);
+        addItemToCart(addedProduct.getId(), 2);
+        placeOrder();
+
+        ProductRequestDTO requestProduct2 = DtoFixtures.someProductRequestDTO();
+        ProductResponseDTO addedProduct2 = addProduct(requestProduct2);
+        addItemToCart(addedProduct2.getId(), 10);
+        placeOrder();
+
+
         // when
-        OrdersDTO result = getOrdersByUser();
+        OrdersDTO foundOrderForUser = getOrdersByUser();
 
         // then
-        assertThat(result.getOrders()).hasSize(1);
-        assertThat(result.getOrders()).allMatch(order -> order.getUser().getId() == 1);
+        assertThat(foundOrderForUser.getOrders()).hasSize(2);
+        assertThat(foundOrderForUser.getOrders()).anyMatch(order -> order.getStatus().equals(OrderStatus.PENDING));
     }
 
     @Test
     void shouldPlaceNewOrder() {
+        // given
+        ProductRequestDTO requestProduct = DtoFixtures.someProductRequestDTO();
+        ProductRequestDTO requestProduct2 = DtoFixtures.someProductRequestDTO();
+        ProductResponseDTO addedProduct = addProduct(requestProduct);
+        ProductResponseDTO addedProduct2 = addProduct(requestProduct2);
+
+        addItemToCart(addedProduct.getId(), 2);
+        addItemToCart(addedProduct2.getId(), 10);
+
         // when
         OrderDTO result = placeOrder();
 
         // then
+        CartItemsDTO allCartItems = getAllCartItems();
+        assertThat(allCartItems.getCartItems()).isEmpty();
         assertThat(result.getId()).isNotNull();
-        assertThat(result.getUser().getId()).isEqualTo(1);
         assertThat(result.getStatus()).isEqualTo(OrderStatus.PENDING);
         assertThat(result.getOrderItems()).hasSize(2);
     }
 
     @Test
     void shouldCancelOrder() {
+        // given
+        ProductRequestDTO requestProduct = DtoFixtures.someProductRequestDTO();
+        ProductResponseDTO addedProduct = addProduct(requestProduct);
+
+        addItemToCart(addedProduct.getId(), 2);
+        OrderDTO placedOrder = placeOrder();
+
         // when
-        OrderDTO result = cancelOrder(1);
+        OrderDTO canceledOrder = cancelOrder(placedOrder.getId());
 
         // then
-        assertThat(result.getId()).isEqualTo(1);
-        assertThat(result.getStatus()).isEqualTo(OrderStatus.CANCELLED);
+        assertThat(canceledOrder.getId()).isEqualTo(placedOrder.getId());
+        assertThat(canceledOrder.getUser()).isEqualTo(placedOrder.getUser());
+        assertThat(canceledOrder.getStatus()).isEqualTo(OrderStatus.CANCELLED);
     }
-
 }

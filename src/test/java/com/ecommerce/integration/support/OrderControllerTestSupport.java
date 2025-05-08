@@ -8,10 +8,10 @@ import org.springframework.http.HttpStatus;
 
 public interface OrderControllerTestSupport {
 
-    RequestSpecification requestSpecification();
+    RequestSpecification requestSpecificationUserAuthorization();
 
     default OrderDTO getOrderById(Integer orderId) {
-        return requestSpecification()
+        return requestSpecificationUserAuthorization()
                 .get(OrderController.API_ORDERS + "/" + orderId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
@@ -20,7 +20,7 @@ public interface OrderControllerTestSupport {
     }
 
     default OrdersDTO getOrdersByUser() {
-        return requestSpecification()
+        return requestSpecificationUserAuthorization()
                 .get(OrderController.API_ORDERS)
                 .then()
                 .statusCode(HttpStatus.OK.value())
@@ -29,7 +29,7 @@ public interface OrderControllerTestSupport {
     }
 
     default OrderDTO placeOrder() {
-        return requestSpecification()
+        return requestSpecificationUserAuthorization()
                 .post(OrderController.API_ORDERS)
                 .then()
                 .statusCode(HttpStatus.CREATED.value())
@@ -38,8 +38,8 @@ public interface OrderControllerTestSupport {
     }
 
     default OrderDTO cancelOrder(Integer orderId) {
-        return requestSpecification()
-                .patch(OrderController.API_ORDERS + "/"+ orderId + "/cancel")
+        return requestSpecificationUserAuthorization()
+                .patch(OrderController.API_ORDERS + "/" + orderId + "/cancel")
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .extract()
