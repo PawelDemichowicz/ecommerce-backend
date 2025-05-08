@@ -2,6 +2,7 @@ package com.ecommerce.integration.controller;
 
 import com.ecommerce.api.dto.CartItemsDTO;
 import com.ecommerce.api.dto.request.ProductRequestDTO;
+import com.ecommerce.api.dto.response.CartItemResponseDTO;
 import com.ecommerce.api.dto.response.ProductResponseDTO;
 import com.ecommerce.integration.configuration.RestAssuredIntegrationTestBase;
 import com.ecommerce.integration.support.AdminControllerTestSupport;
@@ -38,15 +39,16 @@ public class CartControllerIT
         ProductRequestDTO requestProduct2 = DtoFixtures.someProductRequestDTO();
         ProductResponseDTO addedProduct = addProduct(requestProduct);
         ProductResponseDTO addedProduct2 = addProduct(requestProduct2);
-        addItemToCart(addedProduct.getId(), 2);
-        addItemToCart(addedProduct2.getId(), 10);
+        CartItemResponseDTO cartItemResponse1 = addItemToCart(addedProduct.getId(), 2);
+        CartItemResponseDTO cartItemResponse2 = addItemToCart(addedProduct2.getId(), 10);
 
         // when
-        removeItemFromCart(addedProduct2.getId());
+        removeItemFromCart(cartItemResponse2.getId());
 
         // then
         CartItemsDTO foundCartItems = getAllCartItems();
         assertThat(foundCartItems.getCartItems()).hasSize(1);
+        assertThat(foundCartItems.getCartItems().get(0).getId()).isEqualTo(cartItemResponse1.getId());
     }
 
     @Test
