@@ -4,8 +4,6 @@ server:
     context-path: /ecommerce
 
 spring:
-  config:
-    import: file:.env[.properties]
   application:
     name: ecommerce-backend
   datasource:
