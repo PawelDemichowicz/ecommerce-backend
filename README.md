@@ -1,38 +1,107 @@
-# E-commerce Backend Application
+# 🛒 E-commerce Backend Application
 
-This is a backend application for an e-commerce platform. The application is built using **Spring Boot** and **PostgreSQL**, and it provides a REST API for managing products, users, and orders.
+This is a backend application for an e-commerce platform built with **Spring Boot** and **PostgreSQL**. It provides a secure REST API for managing users, products, shopping carts, and orders, with role-based access for customers and administrators.
 
-## Project Goal
+## 🎯 Project Goal
 
-The goal of this project is to create a robust backend for an e-commerce system. It will include functionalities such as:
+The goal of this project is to create a robust and secure backend for an online store. Key features include:
 
-- User authentication and management.
-- Product management (CRUD operations).
-- Order placement and management.
-- Admin and user roles for different access levels.
+- 🔐 User registration, authentication (JWT), and role-based authorization (admin & customer).
+- 📦 Product management with full CRUD operations.
+- 🛒 Shopping cart functionality.
+- 🧾 Order placement and order history per user.
+- 🧑‍💼 Admin panel for managing users and products.
+- 📑 API documentation with Swagger/OpenAPI.
+- 🧪 Unit and integration tests for controllers and services.
+- 🐳 Dockerized environment for easy development and testing.
 
-## Technologies Used
+## 🧰 Tech Stack
 
-- **Spring Boot**: For backend development and API creation.
-- **PostgreSQL**: Relational database for storing user and product data.
-- **Spring Security**: For secure authentication and authorization.
-- **JWT**: JSON Web Tokens for user authentication.
-- **Hibernate**: ORM for interacting with the database.
-- **Flyway**: Database migration tool.
-- **Lombok**: Reduces boilerplate code for getters, setters, and constructors.
+- **Java 17**
+- **Spring Boot 3** (REST, Validation, Security)
+- **PostgreSQL** (via Testcontainers in tests)
+- **Spring Security & JWT** (authentication and authorization)
+- **Hibernate & JPA** (ORM and database interaction)
+- **Flyway** (database migrations)
+- **Lombok** (boilerplate reduction)
+- **MapStruct** (DTO <-> domain <-> entity mapping)
+- **Docker** (local development environment)
+- **JUnit 5**, **Mockito**, **Testcontainers**, **RestAssured** (testing)
 
-## Installation Instructions
+## ▶️ Run Locally with Docker
 
-### Prerequisites
+Make sure you have Docker and Docker Compose installed.
 
-- Java 17 or higher
-- Gradle
-- PostgreSQL (or any other database, PostgreSQL is preferred)
+### 1. Create a `.env` file in the root directory
 
-### Steps
+```env
+DB_URL=jdbc:postgresql://postgresql:5432/ecommerce
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+JWT_SECRET=your_jwt_secret
+JWT_EXPIRATION=86400000
+```
 
-1. Clone the repository:
+> These variables are injected into the container at runtime.
 
-   ```bash
-   git clone https://github.com/PawelDemichowicz/ecommerce-backend.git
-   cd e-commerce-backend
+### 2. Build the JAR
+
+```bash
+./gradlew bootJar
+```
+
+### 3. Start the application
+
+```bash
+docker compose up --build
+```
+
+> Using `--build` ensures Docker always builds a fresh image based on your current code.
+
+This will start:
+- Spring Boot application on **`localhost:8190/ecommerce`**
+- PostgreSQL database container
+
+## 🧪 Running Tests
+
+You can run the tests locally with:
+
+```bash
+./gradlew test
+```
+
+This will start PostgreSQL using Testcontainers and execute all unit and integration tests.
+
+## 📘 API Documentation
+
+Swagger UI is available at:  
+**`http://localhost:8190/ecommerce/swagger-ui/index.html`**
+
+## 📁 Project Structure
+
+```
+src/main/java/com/ecommerce
+├── api
+│   ├── controller       # REST controllers & global exception handler
+│   └── dto              # Data Transfer Objects & mappers dtos <-> domain
+├── business
+│   ├── domain           # Domain models
+│   ├── exception        # Business-layer exceptions
+│   └── service          # Application services
+├── configuration        # Spring/OpenAPI configuration
+├── database
+│   ├── entity           # JPA entities & mappers entities <-> domain
+│   └── repository       # Spring Data JPA repositories
+├── security             # JWT-based authentication & authorization
+└── EcommerceBackendApplication.java
+```
+
+## ✅ Status
+
+Project is actively developed. MVP version includes:
+- Secure authentication and role-based access control
+- Product and order API
+- Cart functionality
+- Global error handling
+- High test coverage
+- Clean architecture and modular structure
