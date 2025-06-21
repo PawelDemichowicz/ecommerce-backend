@@ -1,5 +1,7 @@
 # 🛒 E-commerce Backend Application
 
+🔗 **Live Swagger UI:** [https://ecommerce-backend-paweldemichowicz.koyeb.app/ecommerce/swagger-ui/index.html#/](https://ecommerce-backend-paweldemichowicz.koyeb.app/ecommerce/swagger-ui/index.html#/)
+
 This is a backend application for an e-commerce platform built with **Spring Boot** and **PostgreSQL**. It provides a secure REST API for managing users, products, shopping carts, and orders, with role-based access for customers and administrators.
 
 ## 🎯 Project Goal

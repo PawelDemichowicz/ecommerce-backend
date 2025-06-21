@@ -27,7 +27,8 @@ public class SpringDocConfiguration {
         return new OpenAPI()
                 .info(new Info()
                         .title("Ecommerce backend application")
-                        .version("1.0"))
+                        .version("1.0")
+                        .description(SwaggerDescription.AUTHENTICATION_GUIDE))
                 .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
                 .components(new Components()
                         .addSecuritySchemes("Bearer Authentication",
